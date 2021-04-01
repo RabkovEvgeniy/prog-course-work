@@ -14,7 +14,7 @@ void Maze::Node::set_distance(double distance) {
 }
 
 void Maze::Node::set_is_wall(bool is_wall){
-    this->is_wall=!is_wall;
+    this->is_wall=is_wall;
 }
 
 double Maze::Node::get_evristic_distance(){
@@ -35,7 +35,16 @@ Maze::Maze(int line, int column){
     for (int i = 0; i < line; i++)
     {
         maze[i] = new Node[column];
-    }  
+    }
+    for (int i = 0; i < line; i++)
+    {
+        for (int j = 0; j < column; j++)
+        {
+            maze[i][j].set_is_wall(0);
+        }
+        
+    }
+      
 }
 
 Maze::Node* Maze::operator[](int i){
