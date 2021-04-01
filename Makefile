@@ -20,3 +20,5 @@ $(PObj)%.o:$(PSrc)%.cpp
 clean:
 	rm -rf obj/*
 	rm -rf bin/*
+
+-include $(PObj)%.d
