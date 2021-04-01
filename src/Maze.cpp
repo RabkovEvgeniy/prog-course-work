@@ -59,3 +59,11 @@ bool Maze::is_enter_node(Maze::Pair node){
 void Maze::Node::set_previos(Maze::Pair previous){
     this-> Previous_node = previous;
 }
+
+Maze::~Maze(){
+    for (int i = 0; i < column; i++)
+    {
+        delete[] maze[i];
+    }
+    delete[] maze;
+}

@@ -54,4 +54,8 @@ private:
     Pair exit_node;
 
     Pair active_node;
+
+    int column;
+
+    int line;
 };
