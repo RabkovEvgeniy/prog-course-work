@@ -1,3 +1,8 @@
+#include <SFML/Graphics.hpp>
+#include <string>
+
+using namespace std;
+
 class Maze{
 public:
     struct Pair
@@ -17,6 +22,7 @@ public:
 
         Pair Previous_node;
     public:
+
         void set_evristic_distance(double distance);
         
         void set_distance(double distance);
@@ -27,7 +33,7 @@ public:
         
         double get_distance();
 
-        bool set_is_wall();
+        bool get_is_wall();
 
         void set_previos(Pair previos);
     };
@@ -45,7 +51,13 @@ public:
     bool is_enter_node(Pair node);
 
     ~Maze();
+    
+    sf::Texture road;
+    
+    sf::Texture block;
 private:
+
+
     
     Node** maze;
 

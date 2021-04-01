@@ -1,5 +1,6 @@
 #include <Maze.h>
 
+
 void Maze::Node::set_evristic_distance(double distance){
     this->evristic_distance = distance;
 }
@@ -24,16 +25,17 @@ double Maze::Node::get_distance() {
     return distance;
 }
 
-bool Maze::Node::set_is_wall(){
+bool Maze::Node::get_is_wall(){
     return is_wall;
 }
 
 Maze::Maze(int line, int column){
-    maze = new Node*[column];
-    for (int i = 0; i < column; i++)
+
+    maze = new Node*[line];
+    for (int i = 0; i < line; i++)
     {
-        maze[i] = new Node;
-    }
+        maze[i] = new Node[column];
+    }  
 }
 
 Maze::Node* Maze::operator[](int i){

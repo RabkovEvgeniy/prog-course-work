@@ -15,10 +15,10 @@ $(PBin)app.$(Exec):$(PObj)main.o $(PObj)Maze.o
 	$(CC) $^ -o $@ $(SFML)
 
 $(PObj)%.o:$(PSrc)%.cpp
-	$(CC) -c $^ -o $@ $(CFlag)
+	$(CC) -c $< -o $@ $(CFlag)
 
 clean:
 	rm -rf obj/*
 	rm -rf bin/*
 
--include $(PObj)%.d
+-include $(PObj)main.d $(PObj)Maze.d
