@@ -11,7 +11,7 @@ SFML = -lsfml-graphics -lsfml-window -lsfml-system
 
 all: $(PBin)app.$(Exec)
 
-$(PBin)app.$(Exec):$(PObj)main.o $(PObj)Maze.o 
+$(PBin)app.$(Exec):$(PObj)main.o $(PObj)Maze.o $(PObj)Navigator.o 
 	$(CC) $^ -o $@ $(SFML)
 
 $(PObj)%.o:$(PSrc)%.cpp
@@ -21,4 +21,4 @@ clean:
 	rm -rf obj/*
 	rm -rf bin/*
 
--include $(PObj)main.d $(PObj)Maze.d
+-include $(PObj)main.d $(PObj)Maze.d $(PObj)Navigator.d
