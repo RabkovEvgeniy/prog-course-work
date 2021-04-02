@@ -4,7 +4,7 @@ int Navigator::MapNode::evristic_distance(Coord exit, Coord it){
     return (abs(exit.first-it.first)+abs(exit.second-it.second))*10;
 }
 
-int Navigator::MapNode::distance(Coord parent, Coord it){
+int Navigator::MapNode::distance(MapNode& parent_node, Coord parent, Coord it){
     return (abs(parent.first-it.first)+abs(parent.second-it.second))==2?14:10;
 }
 
@@ -90,13 +90,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second],*active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -119,13 +119,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -147,13 +147,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -176,13 +176,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second],*active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -204,13 +204,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -233,13 +233,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -261,13 +261,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {
@@ -290,13 +290,13 @@ void Navigator::A_star(Coord enter,Coord exit)
                 {
                     OL.push_front(temp);
                     map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(*active,temp);
+                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
                     map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
                 }
                 else
                 {
-                    temp_G = Navigator::MapNode::distance(*active,temp);
+                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
                     temp_F = temp_G + map[temp.first][temp.second].H;
                     if (map[temp.first][temp.second].G>temp_G)
                     {

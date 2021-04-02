@@ -17,9 +17,9 @@ class Navigator{
         int H; //эвристическое приближение оставшегося пути
         Coord parent_coord; //родительский узел
 
-        static int evristic_distance(Coord exit, Coord it);
+        static int evristic_distance(Coord exit, Coord it); //считает эвристическое приближение
 
-        static int distance(Coord parent, Coord it);
+        static int distance(MapNode& parent_node,Coord parent, Coord it); //считает путь
     };
 
     MapNode** map;
