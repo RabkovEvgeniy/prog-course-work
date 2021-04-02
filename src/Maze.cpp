@@ -46,6 +46,23 @@ Maze::Maze(sf::Vector2i size)
   this->enter_node_indexes = sf::Vector2i(-1,-1);
 }
 
+void Maze::clear()
+{
+  for (int i = 0; i < size.x; i++)
+  {
+    for (int j = 0; j < size.y; j++)
+    {
+      maze[i][j].set_is_block(false);
+      maze[i][j].set_is_road(false);
+    }
+    
+  }
+  
+  this->focus_node_indexes = sf::Vector2i(-1,-1);
+  this->exit_node_indexes = sf::Vector2i(-1,-1);
+  this->enter_node_indexes = sf::Vector2i(-1,-1);
+}
+
 Maze::Node& Maze::operator[](sf::Vector2i indexes)
 {
   return maze[indexes.x][indexes.y];

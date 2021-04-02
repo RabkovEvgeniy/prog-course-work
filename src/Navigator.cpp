@@ -4,7 +4,7 @@ int Navigator::MapNode::evristic_distance(Coord exit, Coord it){
     return (abs(exit.first-it.first)+abs(exit.second-it.second))*10;
 }
 
-int Navigator::MapNode::distance(MapNode& parent_node, Coord parent, Coord it){
+int Navigator::MapNode::distance(MapNode& parent_node, Coord parent, Coord it){ //TODO Найти причину не срезания углов.
     return (abs(parent.first-it.first)+abs(parent.second-it.second))==2?14:10;
 }
 
@@ -82,7 +82,7 @@ void Navigator::A_star(Coord enter,Coord exit)
         temp = *active; //обработка смежных клеток
         
         temp.second--;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -111,7 +111,7 @@ void Navigator::A_star(Coord enter,Coord exit)
 
         temp.first--;
         temp.second--;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -139,7 +139,7 @@ void Navigator::A_star(Coord enter,Coord exit)
         temp = *active;
 
         temp.first--;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -168,7 +168,7 @@ void Navigator::A_star(Coord enter,Coord exit)
 
         temp.first--;
         temp.second++;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -196,7 +196,7 @@ void Navigator::A_star(Coord enter,Coord exit)
         temp = *active;
 
         temp.second++;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -225,7 +225,7 @@ void Navigator::A_star(Coord enter,Coord exit)
 
         temp.first++;
         temp.second++;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -253,7 +253,7 @@ void Navigator::A_star(Coord enter,Coord exit)
         temp = *active;
 
         temp.first++;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -282,7 +282,7 @@ void Navigator::A_star(Coord enter,Coord exit)
 
         temp.first++;
         temp.second--;
-        if(this->is_map_coord(temp))
+        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
         {
             if (std::find(CL.begin(),CL.end(),temp) == CL.end())
             {
@@ -310,11 +310,13 @@ void Navigator::A_star(Coord enter,Coord exit)
         temp = *active;
 
         exit_in_CL = (std::find(CL.begin(),CL.end(),exit) != CL.end());
-        OL_is_empty = OL.empty();
-    }while(OL_is_empty||exit_in_CL);
+        OL_is_empty = OL.size() == 0;
 
+    }while(!(OL_is_empty||exit_in_CL));
+    
     if(exit_in_CL)
     {
+        dist = map[exit.first][exit.second].G;
         road.clear();
         temp = map[exit.first][exit.second].parent_coord;
         while (temp!=enter)
@@ -322,7 +324,6 @@ void Navigator::A_star(Coord enter,Coord exit)
             road.push_front(temp);
             temp = map[temp.first][temp.second].parent_coord;
         }
-        road.reverse();
     }
 }
 

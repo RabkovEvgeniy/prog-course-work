@@ -31,6 +31,8 @@ public:
 
     Maze(sf::Vector2i); // конструктор, создающий массив нод x на y
 
+    void clear();
+
     Node& operator[](sf::Vector2i indexes); //возвращает ссылку на ноду по индексам
 
     void set_exit_node_indexes(sf::Vector2i node); //устанавливает координаты выхода

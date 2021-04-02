@@ -26,9 +26,10 @@ class Navigator{
 
     Coord size;
 
-    list<Coord> road;
-   
 public:
+    list<Coord> road;
+    
+    int dist;
     
     Navigator(pair<int,int> size_of_map); //создает и инициализирует карту
     

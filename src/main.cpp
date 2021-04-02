@@ -1,30 +1,44 @@
-#include <iostream>
 #include <Maze.h>
+#include <Navigator.h>
+
 #include <SFML/Graphics.hpp>
+
+#include <iostream>
 
 using namespace std;
 
-bool is_start_button_coord(sf::Vector2i coord); //координаты принадлежат стартовой кнопке
+bool is_start_button_coord(sf::Vector2i coord); //координаты принадлежат стартовой кнопке.
+bool is_clear_button_coord(sf::Vector2i coord); //координаты принадлежат кнопке очистить.
+bool is_help_button_coord(sf::Vector2i coord); //координаты принадлежат кнопке помощь.
 
 void right_mouse_released(Maze& maze,sf::Vector2i coord);
 
 int main() {
-  
-  sf::Texture road,block,enter,exit,start_button; //инициализация текстур
+  sf::Texture road,block,enter,exit,start_button,track,clear_button,help_button; //инициализация текстур
   road.loadFromFile("img/road.png"); 
   block.loadFromFile("img/block.png");
   enter.loadFromFile("img/enter.png");
   exit.loadFromFile("img/exit.png");
   start_button.loadFromFile("img/start_button.png");
-  
-  sf::Sprite node,button; //инициализирую спрайты
+  track.loadFromFile("img/track.png");
+  clear_button.loadFromFile("img/clear_button.png");
+  help_button.loadFromFile("img/help_button.png");
+
+  sf::Sprite node,s_button,c_button,h_button; //инициализирую спрайты
   node.setTexture(road);
-  button.setPosition(310,470);
-  button.setTexture(start_button);
+  s_button.setPosition(310,470);
+  s_button.setTexture(start_button);
+  c_button.setPosition(640,470);
+  c_button.setTexture(clear_button);
+  h_button.setPosition(145,470);
+  h_button.setTexture(help_button);
 
   Maze maze(sf::Vector2i(13,7)); //инициализация лабиринта
+  Navigator navigator(std::pair<int,int>(13,7));
 
   sf::Vector2i mouse_position,focus_node; //координатные пары
+
+  bool road_was_found;
 
   sf::RenderWindow window(sf::VideoMode(900, 550), "Maze", sf::Style::Titlebar|sf::Style::Close); // инициализация окна
   
@@ -48,13 +62,38 @@ int main() {
               
               if (focus_node!=sf::Vector2i(-1,-1) 
                   && focus_node!=maze.get_enter_node_indexes()
-                  && focus_node!=maze.get_exit_node_indexes())
+                  && focus_node!=maze.get_exit_node_indexes()
+                  && !road_was_found)
                 maze[focus_node].switch_is_block();
               
-              if (is_start_button_coord(mouse_position)) ; //TODO Дописать действия при нажатии на кнопку старт
+              if (is_start_button_coord(mouse_position))
+              {
+                if(!road_was_found)
+                {
+                  road_was_found=1;
+                  navigator.update_map(maze);
+                  if(maze.get_enter_node_indexes()!=sf::Vector2i(-1,-1)&&maze.get_exit_node_indexes()!=sf::Vector2i(-1,-1))
+                  {
+                    navigator.A_star(Coord(maze.get_enter_node_indexes().x,maze.get_enter_node_indexes().y),Coord(maze.get_exit_node_indexes().x,maze.get_exit_node_indexes().y));
+                    for (auto it = navigator.road.begin(); it != navigator.road.end(); ++it)
+                    {
+                      maze[sf::Vector2i((*it).first,(*it).second)].set_is_road(true);
+                    }
+                  }
+                }
+              }
+              if (is_clear_button_coord(mouse_position))
+              {
+                road_was_found = false;
+                maze.clear();
+              }
+              if (is_help_button_coord(mouse_position))
+              {
+                system("opera https://vk.com/e.rabkov");
+              }
             }
 
-            if(event.mouseButton.button ==sf::Mouse::Right) //обработчик нажатия ПКМ
+            if(event.mouseButton.button ==sf::Mouse::Right&& !road_was_found) //обработчик нажатия ПКМ
               right_mouse_released(maze,mouse_position);  
           }
         }
@@ -80,20 +119,33 @@ int main() {
             {
               node.setTexture(exit);
             }
-            else 
-              node.setTexture(maze[sf::Vector2i(i,j)].get_is_block()?block:road);
+            else if(maze[sf::Vector2i(i,j)].get_is_road())
+            {
+              node.setTexture(track);
+            }
+            else node.setTexture(maze[sf::Vector2i(i,j)].get_is_block()?block:road);
 
-            if(maze.get_focus_node_indexes() == sf::Vector2i(i,j)) //затемняем если в фокусе
+            if(maze.get_focus_node_indexes() == sf::Vector2i(i,j)&&!road_was_found) //затемняем если в фокусе
               node.setColor(sf::Color(255,255,255,180));
             
             window.draw(node);
           }
         }
 
-        button.setColor(sf::Color::White); //отрисовка кнопки старт
-        if (is_start_button_coord(mouse_position))
-          button.setColor(sf::Color(255,255,255,220)); //затемняем если в фокусе
-        window.draw(button);
+        s_button.setColor(sf::Color::White); //отрисовка кнопки старт
+        if (is_start_button_coord(mouse_position)&&!road_was_found)
+          s_button.setColor(sf::Color(255,255,255,220)); //затемняем если в фокусе
+        window.draw(s_button);
+
+        c_button.setColor(sf::Color::White); //отрисовка кнопки старт
+        if (is_clear_button_coord(mouse_position))
+          c_button.setColor(sf::Color(255,255,255,220)); //затемняем если в фокусе
+        window.draw(c_button);
+
+        h_button.setColor(sf::Color::White); //отрисовка кнопки старт
+        if (is_help_button_coord(mouse_position))
+          h_button.setColor(sf::Color(255,255,255,220)); //затемняем если в фокусе
+        window.draw(h_button);
         
         window.display(); //отображаем отрисованное
     }
@@ -103,6 +155,16 @@ int main() {
 bool is_start_button_coord(sf::Vector2i coord)
 {
   return (coord.x>=310 && coord.x<=580) && (coord.y >=475 && coord.y<=525);
+}
+
+bool is_clear_button_coord(sf::Vector2i coord)
+{
+  return (coord.x>=640 && coord.x<=745) && (coord.y >=475 && coord.y<=525);
+}
+
+bool is_help_button_coord(sf::Vector2i coord)
+{
+  return (coord.x>=145 && coord.x<=250) && (coord.y >=475 && coord.y<=525);
 }
 
 void right_mouse_released(Maze& maze,sf::Vector2i coord)
