@@ -11,7 +11,7 @@ SFML = -lsfml-graphics -lsfml-window -lsfml-system
 
 all: $(PBin)app.$(Exec)
 
-$(PBin)app.$(Exec):$(PObj)main.o $(PObj)Maze.o
+$(PBin)app.$(Exec):$(PObj)main.o $(PObj)Maze.o 
 	$(CC) $^ -o $@ $(SFML)
 
 $(PObj)%.o:$(PSrc)%.cpp

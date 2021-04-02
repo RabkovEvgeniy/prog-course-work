@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
 
@@ -7,59 +8,56 @@ class Maze{
 public:
 
     class Node{
-        double evristic_distance; //Расстояние до выхода
-        
-        double distance; //Кратчайшая известная длинна пути от входа до ноды
 
-        bool is_block; //Является ли нода преградой?
+        bool is_block; //является ли нода преградой?
 
-        sf::Vector2i previous_node_indexes;//индексы ноды, из которой идет кратчайший известный маршрут до ноды 
+        bool is_road; //является ли нода оптимальным путем?
+
     public:
         Node();
 
-        void set_evristic_distance(double distance); //Установить значение эвристического расстояния
+        void set_is_block(bool is_block); //уставливает, является ли нода преградой
+
+        bool get_is_block(); //узнает, является ли нода преградой
+
+        void switch_is_block(); //переключает состояние преграда\проход на противоположное
         
-        void set_distance(double distance); //Установить значение расстояния от входа до ноды
+        void set_is_road(bool is_road);  //устанавливает, является ли нода оптимальным путем
 
-        void set_is_block(bool is_block); //Установить
-
-        double get_evristic_distance();
-        
-        double get_distance();
-
-        bool get_is_block();
-
-        void switch_is_block();
-
-        void set_previos_node_indexes(sf::Vector2i previous_node_indexes);
+        bool get_is_road(); //узнает, является ли нода оптимальным путем
     };
 
-    Maze(sf::Vector2i);
+    Maze(sf::Vector2i); // конструктор, создающий массив нод x на y
 
-    Node& operator[](sf::Vector2i indexes); //Возвращает ссылку на ноду по индексам
+    Node& operator[](sf::Vector2i indexes); //возвращает ссылку на ноду по индексам
 
-    void set_exit_node_indexes(sf::Vector2i node);
+    void set_exit_node_indexes(sf::Vector2i node); //устанавливает координаты выхода
 
-    sf::Vector2i get_exit_node_indexes(); 
+    sf::Vector2i get_exit_node_indexes();  //возвращает координаты выхода
 
-    void set_enter_node(sf::Vector2i node);
+    void set_enter_node_indexes(sf::Vector2i node); //устанавливает координаты входа
 
-    sf::Vector2i get_enter_node_indexes();
+    sf::Vector2i get_enter_node_indexes(); //возвращает координаты входы  
 
-    sf::Vector2i get_indexes_focus_node(sf::Vector2i pos);
+    void set_focus_node_indexes(sf::Vector2i indexes); //устанавливает координаты фокусной ноды
 
-    ~Maze();
+    sf::Vector2i get_focus_node_indexes(); //возвращает координаты фокусной ноды
+
+    sf::Vector2i get_size(); //возвращает размер
+
+    sf::Vector2i transform_coord_to_indexes_of_node(sf::Vector2i pos); //преобразует координаты в индексы нод
+
+    ~Maze(); //очищает память
+
 private:
     
-    Node** maze;
+    Node** maze; //указатель на двумерный дин. массив
 
-    sf::Vector2i enter_node_indexes;
+    sf::Vector2i enter_node_indexes; //индексы ноды входа
 
-    sf::Vector2i exit_node_indexes;
+    sf::Vector2i exit_node_indexes; //индексы ноды выхода
 
-    sf::Vector2i active_node_indexes;
+    sf::Vector2i focus_node_indexes; //индексы фокусной ноды
 
-    sf::Vector2i focus_node_indexes;
-
-    sf::Vector2i size;
+    sf::Vector2i size; //размер лабиринта
 };
