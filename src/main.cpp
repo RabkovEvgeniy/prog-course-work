@@ -70,7 +70,6 @@ int main() {
               {
                 if(!road_was_found)
                 {
-                  road_was_found=1;
                   navigator.update_map(maze);
                   if(maze.get_enter_node_indexes()!=sf::Vector2i(-1,-1)&&maze.get_exit_node_indexes()!=sf::Vector2i(-1,-1))
                   {
@@ -79,6 +78,7 @@ int main() {
                     {
                       maze[sf::Vector2i((*it).first,(*it).second)].set_is_road(true);
                     }
+                    road_was_found=1;
                   }
                 }
               }

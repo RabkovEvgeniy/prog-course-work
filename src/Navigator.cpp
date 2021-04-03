@@ -1,7 +1,7 @@
 #include <Navigator.h>
 
 int Navigator::MapNode::evristic_distance(Coord exit, Coord it){
-    return (abs(exit.first-it.first)+abs(exit.second-it.second))*10;
+    return sqrt(pow(exit.first-it.first,2)+pow(exit.second-it.second,2))*10;
 }
 
 int Navigator::MapNode::distance(MapNode& parent_node, Coord parent, Coord it){ //TODO Найти причину не срезания углов.
@@ -109,34 +109,34 @@ void Navigator::A_star(Coord enter,Coord exit)
         }
         temp = *active;
 
-        temp.first--;
-        temp.second--;
-        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
-        {
-            if (std::find(CL.begin(),CL.end(),temp) == CL.end())
-            {
-                if(std::find(OL.begin(),OL.end(),temp) == OL.end())
-                {
-                    OL.push_front(temp);
-                    map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
-                    map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
-                }
-                else
-                {
-                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    temp_F = temp_G + map[temp.first][temp.second].H;
-                    if (map[temp.first][temp.second].G>temp_G)
-                    {
-                        map[temp.first][temp.second].parent_coord = *active;
-                        map[temp.first][temp.second].G = temp_G;
-                        map[temp.first][temp.second].F = temp_F;
-                    }
-                }
-            }
-        }
-        temp = *active;
+        // temp.first--;
+        // temp.second--;
+        // if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
+        // {
+        //     if (std::find(CL.begin(),CL.end(),temp) == CL.end())
+        //     {
+        //         if(std::find(OL.begin(),OL.end(),temp) == OL.end())
+        //         {
+        //             OL.push_front(temp);
+        //             map[temp.first][temp.second].parent_coord=*active;
+        //             map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
+        //             map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
+        //         }
+        //         else
+        //         {
+        //             temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             temp_F = temp_G + map[temp.first][temp.second].H;
+        //             if (map[temp.first][temp.second].G>temp_G)
+        //             {
+        //                 map[temp.first][temp.second].parent_coord = *active;
+        //                 map[temp.first][temp.second].G = temp_G;
+        //                 map[temp.first][temp.second].F = temp_F;
+        //             }
+        //         }
+        //     }
+        // }
+        // temp = *active;
 
         temp.first--;
         if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
@@ -166,34 +166,34 @@ void Navigator::A_star(Coord enter,Coord exit)
         }
         temp = *active;
 
-        temp.first--;
-        temp.second++;
-        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
-        {
-            if (std::find(CL.begin(),CL.end(),temp) == CL.end())
-            {
-                if(std::find(OL.begin(),OL.end(),temp) == OL.end())
-                {
-                    OL.push_front(temp);
-                    map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
-                    map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
-                }
-                else
-                {
-                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second],*active,temp);
-                    temp_F = temp_G + map[temp.first][temp.second].H;
-                    if (map[temp.first][temp.second].G>temp_G)
-                    {
-                        map[temp.first][temp.second].parent_coord = *active;
-                        map[temp.first][temp.second].G = temp_G;
-                        map[temp.first][temp.second].F = temp_F;
-                    }
-                }
-            }
-        }
-        temp = *active;
+        // temp.first--;
+        // temp.second++;
+        // if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
+        // {
+        //     if (std::find(CL.begin(),CL.end(),temp) == CL.end())
+        //     {
+        //         if(std::find(OL.begin(),OL.end(),temp) == OL.end())
+        //         {
+        //             OL.push_front(temp);
+        //             map[temp.first][temp.second].parent_coord=*active;
+        //             map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
+        //             map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
+        //         }
+        //         else
+        //         {
+        //             temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second],*active,temp);
+        //             temp_F = temp_G + map[temp.first][temp.second].H;
+        //             if (map[temp.first][temp.second].G>temp_G)
+        //             {
+        //                 map[temp.first][temp.second].parent_coord = *active;
+        //                 map[temp.first][temp.second].G = temp_G;
+        //                 map[temp.first][temp.second].F = temp_F;
+        //             }
+        //         }
+        //     }
+        // }
+        // temp = *active;
 
         temp.second++;
         if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
@@ -223,34 +223,34 @@ void Navigator::A_star(Coord enter,Coord exit)
         }
         temp = *active;
 
-        temp.first++;
-        temp.second++;
-        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
-        {
-            if (std::find(CL.begin(),CL.end(),temp) == CL.end())
-            {
-                if(std::find(OL.begin(),OL.end(),temp) == OL.end())
-                {
-                    OL.push_front(temp);
-                    map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
-                    map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
-                }
-                else
-                {
-                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    temp_F = temp_G + map[temp.first][temp.second].H;
-                    if (map[temp.first][temp.second].G>temp_G)
-                    {
-                        map[temp.first][temp.second].parent_coord = *active;
-                        map[temp.first][temp.second].G = temp_G;
-                        map[temp.first][temp.second].F = temp_F;
-                    }
-                }
-            }
-        }
-        temp = *active;
+        // temp.first++;
+        // temp.second++;
+        // if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
+        // {
+        //     if (std::find(CL.begin(),CL.end(),temp) == CL.end())
+        //     {
+        //         if(std::find(OL.begin(),OL.end(),temp) == OL.end())
+        //         {
+        //             OL.push_front(temp);
+        //             map[temp.first][temp.second].parent_coord=*active;
+        //             map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
+        //             map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
+        //         }
+        //         else
+        //         {
+        //             temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             temp_F = temp_G + map[temp.first][temp.second].H;
+        //             if (map[temp.first][temp.second].G>temp_G)
+        //             {
+        //                 map[temp.first][temp.second].parent_coord = *active;
+        //                 map[temp.first][temp.second].G = temp_G;
+        //                 map[temp.first][temp.second].F = temp_F;
+        //             }
+        //         }
+        //     }
+        // }
+        // temp = *active;
 
         temp.first++;
         if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
@@ -280,34 +280,34 @@ void Navigator::A_star(Coord enter,Coord exit)
         }
         temp = *active;
 
-        temp.first++;
-        temp.second--;
-        if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
-        {
-            if (std::find(CL.begin(),CL.end(),temp) == CL.end())
-            {
-                if(std::find(OL.begin(),OL.end(),temp) == OL.end())
-                {
-                    OL.push_front(temp);
-                    map[temp.first][temp.second].parent_coord=*active;
-                    map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
-                    map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
-                }
-                else
-                {
-                    temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
-                    temp_F = temp_G + map[temp.first][temp.second].H;
-                    if (map[temp.first][temp.second].G>temp_G)
-                    {
-                        map[temp.first][temp.second].parent_coord = *active;
-                        map[temp.first][temp.second].G = temp_G;
-                        map[temp.first][temp.second].F = temp_F;
-                    }
-                }
-            }
-        }
-        temp = *active;
+        // temp.first++;
+        // temp.second--;
+        // if(this->is_map_coord(temp)&&map[temp.first][temp.second].F != -1)
+        // {
+        //     if (std::find(CL.begin(),CL.end(),temp) == CL.end())
+        //     {
+        //         if(std::find(OL.begin(),OL.end(),temp) == OL.end())
+        //         {
+        //             OL.push_front(temp);
+        //             map[temp.first][temp.second].parent_coord=*active;
+        //             map[temp.first][temp.second].G=Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             map[temp.first][temp.second].H=Navigator::MapNode::evristic_distance(exit,temp);
+        //             map[temp.first][temp.second].F=map[temp.first][temp.second].G+map[temp.first][temp.second].H;
+        //         }
+        //         else
+        //         {
+        //             temp_G = Navigator::MapNode::distance(map[(*active).first][(*active).second], *active,temp);
+        //             temp_F = temp_G + map[temp.first][temp.second].H;
+        //             if (map[temp.first][temp.second].G>temp_G)
+        //             {
+        //                 map[temp.first][temp.second].parent_coord = *active;
+        //                 map[temp.first][temp.second].G = temp_G;
+        //                 map[temp.first][temp.second].F = temp_F;
+        //             }
+        //         }
+        //     }
+        // }
+        // temp = *active;
 
         exit_in_CL = (std::find(CL.begin(),CL.end(),exit) != CL.end());
         OL_is_empty = OL.size() == 0;
